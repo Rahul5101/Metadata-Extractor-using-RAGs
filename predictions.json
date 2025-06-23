@@ -14,13 +14,6 @@
         "party_two": "P.M. Narayana Namboodri"
     },
     {
-        "agreement_start_date": null,
-        "agreement_end_date": null,
-        "renewal_notice_days": "90",
-        "party_one": null,
-        "party_two": null
-    },
-    {
         "agreement_start_date": "01.04.2011",
         "agreement_end_date": "01.03.2012",
         "renewal_notice_days": "30",
