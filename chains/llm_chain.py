@@ -66,7 +66,6 @@ rag_chain = prompt_template | llm | RunnableLambda(lambda msg: msg.content) | Ru
 def extract_metadata(context_docs):
     context = "\n".join([doc.page_content for doc in context_docs])
     result= rag_chain.invoke({"context": context})
-    print("🔍 Extracted Metadata:\n", result)
     return result
 
 # import sys
