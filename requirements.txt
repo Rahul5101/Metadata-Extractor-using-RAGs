@@ -1,0 +1,11 @@
+langchain
+langchain-community
+langchain-google-genai
+pytesseract
+Pillow
+faiss-cpu
+sentence-transformers
+python-docx
+unstructured
+docx2txt
+google-generativeai
