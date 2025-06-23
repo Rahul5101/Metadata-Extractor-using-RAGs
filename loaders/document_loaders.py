@@ -3,8 +3,8 @@ from typing import List
 from langchain_community.document_loaders import Docx2txtLoader
 from langchain_community.document_loaders.image import UnstructuredImageLoader
 from langchain.schema import Document
-from PIL import Image
-import pytesseract
+
+
 
 
 def load_docx_file(path) -> List[Document]:
@@ -13,8 +13,6 @@ def load_docx_file(path) -> List[Document]:
 
 
 def load_png_file(path) -> List[Document]:
-    # text = pytesseract.image_to_string(Image.open(path))
-    # return [Document(page_content=text, metadata={"source":path})]
     loader = UnstructuredImageLoader(path)
     return loader.load()
 

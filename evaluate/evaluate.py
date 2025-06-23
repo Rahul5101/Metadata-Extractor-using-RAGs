@@ -1,8 +1,7 @@
 import pandas as pd
 import json
 
-# Define the fields to evaluate
-FIELDS = [
+METADATA_FIELDS = [
     "agreement_start_date",
     "agreement_end_date",
     "renewal_notice_days",
@@ -10,45 +9,59 @@ FIELDS = [
     "party_two",
 ]
 
-def normalize(val):
-    if isinstance(val, str):
-        return val.strip().lower()
-    return str(val).strip().lower()
 
-def calculate_recall(ground_truth_df, predictions):
-    field_scores = {field: {"true": 0, "false": 0} for field in FIELDS}
+Mapping = {
+    "agreement_start_date": "Aggrement Start Date",
+    "agreement_end_date": "Aggrement End Date",
+    "renewal_notice_days": "Renewal Notice (Days)",
+    "party_one": "Party One",
+    "party_two": "Party Two",
+}
 
-    for idx, row in ground_truth_df.iterrows():
-        doc_id = row["file"] if "file" in row else f"doc_{idx}"
-        prediction = predictions[idx] if idx < len(predictions) else {}
 
-        for field in FIELDS:
-            expected = normalize(row.get(field, ""))
-            predicted = normalize(prediction.get(field, ""))
+def normalize(value):
+    if isinstance(value, str):
+        return value.strip().lower()
+    return str(value).strip().lower()
+
+
+def per_field_recall(ground_truth_df, prediction_data):
+    truth_value = {field: {"true": 0, "false": 0} for field in METADATA_FIELDS}
+
+    for index, row in ground_truth_df.iterrows():
+        pred = prediction_data[index] if index < len(prediction_data) else {}
+
+        for field in METADATA_FIELDS:
+            expected = normalize(row.get(Mapping[field], ""))
+            predicted = normalize(pred.get(field, ""))
 
             if expected and expected == predicted:
-                field_scores[field]["true"] += 1
+                truth_value[field]["true"] += 1
             else:
-                field_scores[field]["false"] += 1
+                truth_value[field]["false"] += 1
 
-    recalls = {
+    recall_scores = {
         field: round(
-            field_scores[field]["true"] / max(1, (field_scores[field]["true"] + field_scores[field]["false"])), 3
-        ) for field in FIELDS
+            truth_value[field]["true"] / max(1, (truth_value[field]["true"] + truth_value[field]["false"])), 3
+        )
+        for field in METADATA_FIELDS
     }
 
-    return recalls
+    return recall_scores
+
 
 if __name__ == "__main__":
-    gt_path = "data/test.csv"
-    pred_path = "predictions.json"
+    ground_truth_path = "data/test.csv"
+    predictions_path = "predictions.json"
 
-    gt_df = pd.read_csv(gt_path)
-    with open(pred_path, "r") as f:
-        predictions = json.load(f)
 
-    recalls = calculate_recall(gt_df, predictions)
+    ground_truth_df = pd.read_csv(ground_truth_path)
+    with open(predictions_path, "r") as f:
+        prediction_data = json.load(f)
 
-    print("\nPer-field Recall Scores:")
-    for field, score in recalls.items():
+
+    per_field_recall = per_field_recall(ground_truth_df, prediction_data)
+
+    print("\n Per-field Recall Scores:")
+    for field, score in per_field_recall.items():
         print(f"{field}: {score}")
