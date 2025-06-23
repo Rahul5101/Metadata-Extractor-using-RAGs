@@ -27,7 +27,7 @@ This project extracts metadata from .docx and .png agreement documents using Lan
 - Context retrieval for RAG
 
 ### 4. **Metadata Extraction** (`llm_chain.py`)
-- BERT-based Question Answering for field extraction
+- use promptemplate and output parser to define the schema
 - use gemini-1.5-flash-latest model for efficient processing
 - RAG approach with context-aware extraction
 - Fallback to pattern-based extraction
@@ -35,17 +35,20 @@ This project extracts metadata from .docx and .png agreement documents using Lan
 ### 5. **Evaluation** (`evaluate.py`)
 - Comprehensive calculation of csv file and json file
 - Evaulate the par field Recall
--  **Per-field Recall Scores:**
-   agreement_start_date: 0.25
-   agreement_end_date: 0.5
-   renewal_notice_days: 0.75
-   party_one: 0.25
-   party_two: 0.25
+- Recall = (true)/(true + false)
 
 ### 6. **Pipeline Orchestration** (`rag_pipeline.py`)
 - Main pipeline coordination
-- Training data processing
-- Evaluation execution
+- Metadata stored in prediction.json file
+
+### **RESULT**
+ **Per-field Recall Scores:**
+   - agreement_start_date: 0.25
+   - agreement_end_date: 0.5
+   - renewal_notice_days: 0.75
+   - party_one: 0.25
+   - party_two: 0.25
+
 
  **Clone the repository:**
    ```bash
@@ -57,6 +60,14 @@ This project extracts metadata from .docx and .png agreement documents using Lan
    ```bash
    pip install -r requirements.txt
    ```
+### **RESULT**
+-  **Per-field Recall Scores:**
+   agreement_start_date: 0.25
+   agreement_end_date: 0.5
+   renewal_notice_days: 0.75
+   party_one: 0.25
+   party_two: 0.25
+
 
 ## How to Run
 1. Install requirements
