@@ -60,14 +60,6 @@ This project extracts metadata from .docx and .png agreement documents using Lan
    ```bash
    pip install -r requirements.txt
    ```
-### **RESULT**
--  **Per-field Recall Scores:**
-   agreement_start_date: 0.25
-   agreement_end_date: 0.5
-   renewal_notice_days: 0.75
-   party_one: 0.25
-   party_two: 0.25
-
 
 ## How to Run
 1. Install requirements
