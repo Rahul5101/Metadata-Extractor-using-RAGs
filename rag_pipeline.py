@@ -1,7 +1,7 @@
 from loaders.document_loaders import load_documents_from_folder
 from splitters.text_splitter import split_documents
 from vectorstore.build_vectorstore import load_faiss_vector
-from retrievers.retrieve_context import get_top_k_context
+from retrievers.retrieve_context import compressed_context
 from chains.llm_chain import extract_metadata
 
 
@@ -19,7 +19,7 @@ def run_testing(test_folder):
             batch_chunk = chunks[i:i + BATCH_SIZE]
             combined_text = "\n\n".join([chunk.page_content for chunk in batch_chunk])
 
-            top_context = get_top_k_context(combined_text, vectordb)
+            top_context = compressed_context(combined_text, vectordb)
             prediction = extract_metadata(top_context)
             results.append(prediction)
 
